@@ -16,9 +16,9 @@ a.back {
 }
 
 .no_match {
-  border:2px solid red;
+  border:2px solid red !important;
 }
 
 .match {
-  border:2px solid green;
+  border:2px solid green !important;
 }

@@ -10,7 +10,7 @@ class CreateTodo extends Component {
 
     this.state = {
       name: '',
-      priority: '',
+      priority: 'low',
       dueDate: '',
       completed: false,
       priorityOptions: ['low', 'medium', 'high'],
