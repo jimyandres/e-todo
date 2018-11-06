@@ -16,7 +16,7 @@ MongoDB was used for this project. To install MongoDB follow these [official ins
 
 ## Run
 
-Before run this project, you have to ensure to run the [MongoDB daemon](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/#verify-that-mongodb-has-started-successfully).
+Before run this project, you have to ensure to run the [MongoDB daemon](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/#verify-that-mongodb-has-started-successfully) and to create the `config.json` file according to the `example.config.json` file in the root folder of the project.
 
 This project has to modes of execution:
 
