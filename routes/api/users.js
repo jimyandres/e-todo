@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const moment = require('moment');
 
+const { ObjectId } = mongoose.Types;
+
 // Models
 const User = require('../../models/user');
 const Task = require('../../models/task');
@@ -22,16 +24,37 @@ const getUserInfo = async (userId, res) => {
   return res.json(userQuery);
 };
 
-// Get user tasks by his id
-const getUserTasks = async (userId, res) => {
-  const userQuery = await User.findOne({
-    id: userId,
-  })
-    .populate({
-      path: 'tasks',
-    })
-    .select('tasks');
+// Get tasks by visibility
+const byVisibility = (userId, visibility) => {
+  switch (visibility) {
+    case 'all':
+      return User.findOne({
+        _id: ObjectId(userId),
+      }).populate({
+        path: 'tasks',
+      }).select('tasks');
+    case 'pending':
+      return User.findOne({
+        _id: ObjectId(userId),
+      }).populate({
+        path: 'tasks',
+        match: { completed: false },
+      }).select('tasks');
+    case 'completed':
+      return User.findOne({
+        _id: ObjectId(userId),
+      }).populate({
+        path: 'tasks',
+        match: { completed: true },
+      }).select('tasks');
+    default:
+      throw new Error(`unknown filter: ${visibility}`);
+  }
+};
 
+// Get user tasks by his id
+const getUserTasks = async (userId, visibility, res) => {
+  const userQuery = await byVisibility(userId, visibility);
   if (!userQuery) {
     return res.json({ error: 'There was an error getting the tasks from the database. Please try again.' });
   }
@@ -42,7 +65,7 @@ const getUserTasks = async (userId, res) => {
 const saveTask = async (userId, taskInfo, res) => {
   // Get the user's info
   await User.findOne({
-    id: userId,
+    _id: ObjectId(userId),
   })
     .populate('tasks')
     .exec(async (err, userInfo) => {
@@ -52,10 +75,63 @@ const saveTask = async (userId, taskInfo, res) => {
         const newTask = new Task(taskInfo);
         await newTask.save((error, task) => {
           if (error) {
-            return res.json({ error: 'There was an error saving the task to the database. Please try again.' });
+            return res.json({ error: 'There was an error saving the task to the database. Please try again.', e: error });
           }
           return res.json({ task });
         });
+      } else {
+        return res.json({ error: "The user doesn't exists. Please verify the information.", no_user: true });
+      }
+      return null;
+    });
+};
+
+// Check a task
+const checkTask = async (userId, taskId, prevState, res) => {
+  // Get the task to check
+  await Task.updateOne({
+    _id: ObjectId(taskId),
+  }, { $set: { completed: !prevState } })
+    .then(() => Task.findOne({ _id: taskId })
+      .exec(async (err, task) => {
+        if (err) {
+          return res.json({ error: 'There was an error checking the task. Please try again.', e: err });
+        }
+        return res.json({ task });
+      }));
+};
+
+// Edit a task
+const editTask = async (userId, taskId, newText, res) => {
+  // Get the task to edit
+  await Task.updateOne({
+    _id: ObjectId(taskId),
+  }, { $set: { name: newText } })
+    .then(() => Task.findOne({ _id: taskId })
+      .exec(async (err, task) => {
+        if (err) {
+          return res.json({ error: 'There was an error updating the task. Please try again.', e: err });
+        }
+        return res.json({ task });
+      }));
+};
+
+// Delete a task
+const deleteTask = async (userId, taskId, visibility, res) => {
+  // Get the user's info
+  await User.findOne({
+    _id: ObjectId(userId),
+  })
+    .populate('tasks')
+    .exec(async (err, userInfo) => {
+      if (userInfo !== null) {
+        await Task.deleteOne({ _id: taskId })
+          .exec((error) => {
+            if (error) {
+              return res.json({ error: 'There was an error deleting the task from the database. Please try again.', e: error });
+            }
+            return getUserTasks(userId, visibility, res);
+          });
       } else {
         return res.json({ error: "The user doesn't exists. Please verify the information.", no_user: true });
       }
@@ -129,15 +205,67 @@ router.post('/:user_id/tasks', async (req, res) => {
 });
 
 // GET to/:user_id/tasks
-router.get('/:user_id/tasks', async (req, res) => {
+router.get('/:user_id/tasks/:visibility', async (req, res) => {
   const userId = req.params.user_id;
+  const { visibility } = req.params;
   let result;
 
   try {
     // Get the tasks
-    return await getUserTasks(userId, res);
+    return await getUserTasks(userId, visibility, res);
   } catch (e) {
     result = res.json({ error: 'There was an error getting the tasks. Please try again.' });
+  }
+
+  return result;
+});
+
+// POST to /:user_id/checkTask/:task_id
+router.post('/:user_id/checkTask/:task_id', async (req, res) => {
+  const { prevState } = req.body;
+  const userId = req.params.user_id;
+  const taskId = req.params.task_id;
+  let result;
+
+  try {
+    // Save the task to the DB
+    return await checkTask(userId, taskId, prevState, res);
+  } catch (e) {
+    result = res.json({ error: 'There was an error checking the task. Please try again.', e });
+  }
+
+  return result;
+});
+
+// POST to /:user_id/tasks/:task_id
+router.post('/:user_id/tasks/:task_id', async (req, res) => {
+  const { text } = req.body;
+  const userId = req.params.user_id;
+  const taskId = req.params.task_id;
+  let result;
+
+  try {
+    // Save the task to the DB
+    return await editTask(userId, taskId, text, res);
+  } catch (e) {
+    result = res.json({ error: 'There was an error updating the task. Please try again.', e });
+  }
+
+  return result;
+});
+
+// DELETE to /:user_id/tasks/:task_id
+router.delete('/:user_id/tasks/:task_id', async (req, res) => {
+  const { visibility } = req.body;
+  const userId = req.params.user_id;
+  const taskId = req.params.task_id;
+  let result;
+
+  try {
+    // Save the task to the DB
+    return await deleteTask(userId, taskId, visibility, res);
+  } catch (e) {
+    result = res.json({ error: 'There was an error updating the task. Please try again.', e });
   }
 
   return result;

@@ -36,23 +36,24 @@ router.post('/login', async (req, res) => {
   }
   passport.authenticate('local')(req, res, () => {
     // If logged in, we should should have user info to send back
-    if (req.user) {
+    req.login(req.user, (err) => {
+      if (err) {
+        // Otherwise return an error
+        return res.send(JSON.stringify({ error: 'There was an error logging in' }));
+      }
       return res.send(JSON.stringify(req.user));
-    }
-
-    // Otherwise return an error
-    return res.send(JSON.stringify({ error: 'There was an error logging in' }));
+    });
   });
 });
 
 // POST to /register
 router.post('/register', async (req, res) => {
   // First, check and make sure the email doesn't aready exist
-  const query = User.findOne({ $or: [{ email: req.body.email }, { id: req.body.id }] });
+  const query = User.findOne({ email: req.body.email });
   const foundUser = await query.exec();
 
   if (foundUser) {
-    return res.send(JSON.stringify({ error: 'Email or id already exists.' }));
+    return res.send(JSON.stringify({ error: 'Email already exists.' }));
   }
   if (!foundUser) {
     // sanitize data

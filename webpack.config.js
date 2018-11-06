@@ -2,6 +2,7 @@ const { resolve } = require('path');
 const CompressionPlugin = require('compression-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const cssOutputLocation = process.env.NODE_ENV === 'production' ?
   'public/stylesheets/style-prod.css' :
@@ -69,21 +70,27 @@ module.exports = {
 };
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports.plugins.unshift(new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: false,
-      screw_ie8: true,
-      conditionals: true,
-      unused: true,
-      comparisons: true,
-      sequences: true,
-      dead_code: true,
-      evaluate: true,
-      if_return: true,
-      join_vars: true,
-    },
-    output: {
-      comments: false,
+  module.exports.plugins.unshift(new UglifyJsPlugin({
+    cache: true,
+    parallel: true,
+    uglifyOptions: {
+      ecma: 7,
+      compress: {
+        warnings: false,
+        conditionals: true,
+        unused: true,
+        comparisons: true,
+        sequences: true,
+        dead_code: true,
+        evaluate: true,
+        if_return: true,
+        join_vars: true,
+      },
+      keep_fnames: true,
+      output: {
+        comments: false,
+      },
+      sourceMap: true,
     },
   }));
   module.exports.plugins.push(new webpack.HashedModuleIdsPlugin());

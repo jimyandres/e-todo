@@ -1,0 +1,15 @@
+.loader{
+  height: 40px;
+  width: 20%;
+  /*text-align: center;*/
+  /*padding: auto;*/
+  margin: 2.5rem auto auto;
+}
+
+/*
+  Set the color of the loading icon
+*/
+#loader-1 path,
+svg rect{
+  fill: #006B7F;
+}

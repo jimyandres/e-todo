@@ -21,5 +21,6 @@
     "linebreak-style": 0,
     "func-names": ["error", "never"],
     "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
   },
 }

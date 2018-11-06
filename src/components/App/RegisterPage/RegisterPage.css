@@ -1,0 +1,24 @@
+form.register {
+  flex: 0.8;
+}
+
+.register-panel{
+  color:#888;
+  margin: 25px 0 0 0;
+  padding: 25px 0 50px 0;
+  background-color: #dddddd4d;
+  border-radius: 10px;
+}
+
+a.back {
+  display: inline-block;
+  width: 5.6em !important;
+}
+
+.no_match {
+  border:2px solid red;
+}
+
+.match {
+  border:2px solid green;
+}

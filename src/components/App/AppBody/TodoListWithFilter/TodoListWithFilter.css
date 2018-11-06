@@ -1,0 +1,150 @@
+.divTodo {
+  display: flex;
+  width: 100%;
+	/* margin:0 -3rem 4px; */
+	/* padding:1.1rem 3rem; */
+	justify-content:space-between;
+	align-items: center;
+  margin: 10px 0;
+  border-radius: 2em;
+	background:rgba(0,107,227,0.03);
+}
+.divTodo.high {
+  background:rgba(255,153,51,0.3) !important;
+}
+.divTodo.medium {
+  background:rgba(255,255,0,0.3) !important;
+}
+
+ul {
+	margin: 2rem 0 0 -2rem;
+  margin-bottom: 2rem;
+	list-style:none;
+}
+
+.checkbox {
+  display: inline-block;
+  height: 50px;
+  width: 50px;
+}
+.checkbox label {
+  display: block;
+  height: 50px;
+  position: relative;
+  width: 50px;
+}
+.checkbox label:after {
+  /*
+  This element has a border on the right, and top. By rotating it looks like a check symbol, but the wrong way. That's why I'm flipping it with scaleX(-1)
+  */
+  transform: scaleX(-1) rotate(135deg);
+  /*
+  I want to position the symbol using the left top, because when increasing the width and height of an object, it expands from the top left corner as well. That is what makes it looks like it's being drawn.
+  */
+  transform-origin: left top;
+  border-right: 4px solid #cee;
+  border-top: 4px solid #cee;
+  content: '';
+  display: block;
+  height: 20px;
+  left: 14px;
+  position: absolute;
+  top: 26px;
+  width: 10px;
+}
+/* .checkbox label:hover:after {
+  border-color: #bdd;
+} */
+.checkbox input {
+  display: none;
+}
+.checkbox input:checked + label:after {
+  border-color: #6aa;
+}
+
+/*************************************************************************************/
+/* Delete TO-DO animation */
+.outer {
+  align-content: flex-end;
+  right: 3.5em;
+  position: absolute;
+  /* margin: auto; */
+  width: 25px;
+  /* margin-top: 200px; */
+  cursor: pointer;
+}
+
+.inner {
+  width: inherit;
+  text-align: center;
+}
+
+.labelClose {
+  font-size: .6em;
+  line-height: 4em;
+  text-transform: uppercase;
+  color: #000;
+  transition: all .6s ease-in;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.inner:before, .inner:after {
+  position: absolute;
+  content: '';
+  height: 1px;
+  width: inherit;
+  background: #FF1500;
+  left: 20%;
+  transition: all .3s ease-in;
+}
+
+.inner:before {
+  top: 50%;
+  transform: rotate(45deg);
+}
+
+.inner:after {
+  bottom: 50%;
+  transform: rotate(-45deg);
+}
+
+.outer:hover .labelClose {
+  opacity: 1;
+}
+
+.outer:hover .inner:before,
+.outer:hover .inner:after {
+  transform: rotate(0);
+}
+
+.outer:hover .inner:before {
+  top: 0;
+}
+
+.outer:hover .inner:after {
+  bottom: 0;
+}
+
+.todoText {
+  white-space: wrap;
+  overflow: hidden;
+  width: 70%;
+  text-overflow: ellipsis;
+  text-decoration: none;
+}
+.todoText.checked {
+  text-decoration: line-through;
+}
+
+.dueDate {
+  width: 5em;
+  margin-right: 1em;
+}
+.dueDate.checked {
+  text-decoration: line-through;
+}
+.dueDate.warning {
+  border-radius: 2em;
+  background:rgba(227, 0, 0, 0.46);
+}

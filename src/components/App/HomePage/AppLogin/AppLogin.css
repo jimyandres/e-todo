@@ -1,0 +1,63 @@
+.login-panel{
+  color:#888;
+  margin: 25px 0 0 0;
+  padding: 25px 0 50px 0;
+  background-color: #dddddd4d;
+  border-radius: 10px;
+}
+
+.form{
+  width: inherit;
+  display: flex;
+  justify-content: center;
+}
+
+form.login {
+  flex: 0.8;
+}
+
+button {
+  background: transparent;
+  border: 0;
+  outline: 0;
+}
+
+.btn {
+  background: none;
+  border: none;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  width: 200px;
+  font-size: 14px;
+  margin: 0 0.5em;
+  border-radius: 2em;
+  padding: 0.75em 1.5em;
+  cursor: pointer;
+  color: #006B7F;
+  border: 1px solid;
+  letter-spacing: 1px;
+  font-family: inherit;
+  color: #006B7F;
+  border: #006B7F 1px solid;
+  transition: 250ms ease-out;
+  text-decoration: none;
+}
+.btn:hover,
+.btn.active {
+  cursor: pointer;
+  color: #fff;
+  background: #006B7F;
+}
+
+a.register {
+  display: inline-block;
+  width: 5.05em !important;
+}
+
+.btn.login {
+  font-size: 14px;
+  padding: 0.4em;
+  letter-spacing: 0;
+  width: 6em;
+}

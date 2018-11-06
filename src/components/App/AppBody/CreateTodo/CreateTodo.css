@@ -1,0 +1,24 @@
+.divInput {
+  width: 100%;
+}
+
+.input{
+  display: block;
+  padding: 0.4em 0;
+  width: 100%;
+  border: none;
+  border-radius: 2em;
+  font-size: 1.2em;
+  font-family: inherit;
+  text-align: center;
+  box-shadow: 0em 0.2em 0 rgba(0,0,0,0.1);
+}
+
+.div.task {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input.task {
+  width: 45% !important;
+}

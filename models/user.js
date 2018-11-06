@@ -10,11 +10,6 @@ const User = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Task',
   }],
-  id: {
-    type: Number,
-    unique: true,
-    required: reqMsg('No identification given'),
-  },
   firstName: {
     type: String,
     required: reqMsg('No First Name given'),

@@ -1,0 +1,91 @@
+.settings-link {
+  display:none;
+}
+
+.logout {
+  font-size:.8em;
+  margin-left: auto;
+}
+
+.btn.logout {
+  font-size: 14px;
+  padding: 0.4em;
+  letter-spacing: 0;
+  width: 6em;
+}
+
+.new-item-input {
+  font-size: 2em;
+}
+
+.checkbox-input {
+	display:inline-block;
+	width:30px;
+	height:30px;
+	line-height:30px;
+	font-size:2em;
+	text-align:center;
+	border:1px solid black;
+	border-radius:3px;
+}
+
+.profile-pic{
+  height:40px;
+  width:40px;
+  margin-right: 10px;
+	border-radius: 8px;
+}
+
+.login-header{
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 10px;
+  align-items: center;
+  border-bottom:1px solid #ccc;
+}
+
+.login-text{
+  color:#888;
+}
+
+.username{
+  font-weight:bold;
+}
+
+.login-links-panel{
+  color:#888;
+  margin: 25px 0 0 0;
+  padding: 25px 0 50px 0;
+  background-color: #dddddd4d;
+  border-radius: 10px;
+}
+
+.buttons{
+  width: inherit;
+  display: flex;
+  justify-content: center;
+}
+
+button svg path, svg rect {
+
+}
+
+.signin-button.btn {
+  cursor:pointer;
+  display: flex;
+	align-items:center;
+  margin: 0.7em;
+	padding:10px;
+  font-size: 15px;
+  padding: 0.7em;
+  letter-spacing: 0;
+  width: 10em;
+  background-color: white;
+}
+
+.facebook-signin-logo{
+  height: 18px;
+  width: 18px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdCAMAAABhTZc9AAAAM1BMVEU7V53////7/P33+Pvm6vPe4++erM9HYaPs7/bY3uu8xd6uutiXpstfd7BNZ6dGYKM+Wp8D8PpVAAAAS0lEQVQoz2MYIoCfh5OZkZkFuyQvCyMYYJVk52DEI8vGiE+WFSjBzY7LTUxAWT6cLgYbSnVZRiTAJIBPlhWvXi68smz4XTUqS6IsADRcAScdHoCmAAAAAElFTkSuQmCC);
+  background-size:18px 18px;
+}
