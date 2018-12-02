@@ -5,9 +5,11 @@
   "scripts": {
     "start": "node ./bin/www",
     "start-prod": "SET NODE_ENV=production&& node ./bin/www",
+    "start-prod-l": "NODE_ENV=production&& node ./bin/www",
     "test": "jest",
     "lint": "eslint .",
-    "build-prod": "SET NODE_ENV=production&&webpack -p --config webpack.config.js"
+    "build-prod": "SET NODE_ENV=production&&webpack -p --config webpack.config.js",
+    "build-prod-l": "NODE_ENV=production&&webpack -p --config webpack.config.js"
   },
   "dependencies": {
     "availity-reactstrap-validation": "^2.0.2",
